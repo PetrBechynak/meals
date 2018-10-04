@@ -1,12 +1,15 @@
 package org.bechynak.meals.services;
 
+import org.bechynak.meals.model.Meal;
 import org.bechynak.meals.model.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,16 +31,22 @@ public class AllRestaurantsService {
         this.ledarnyService = ledarnyService;
     }
 
+    @Cacheable("menuCache")
     public List<Menu> getMenus() {
         List<Menu> menus = new ArrayList<>();
+
+        String restaurant = "Mattes";
         try {
             menus.add(Menu.builder()
-                    .restaurant("Mattes")
+                    .restaurant(restaurant)
                     .meals(mattesService.getMeals())
                     .build());
         } catch (Exception e) {
             System.out.println(e);
+            menus.add(fillError(restaurant));
         }
+
+        restaurant = "Salanda";
         try {
             menus.add(Menu.builder()
                     .restaurant("Salanda")
@@ -45,7 +54,10 @@ public class AllRestaurantsService {
                     .build());
         } catch (Exception e) {
             System.out.println(e);
+            menus.add(fillError(restaurant));
         }
+
+        restaurant = "Rybarna";
         try {
             menus.add(Menu.builder()
                     .restaurant("Rybarna")
@@ -53,7 +65,10 @@ public class AllRestaurantsService {
                     .build());
         } catch (Exception e) {
             System.out.println(e);
+            menus.add(fillError(restaurant));
         }
+
+        restaurant = "Ledarny";
         try {
             menus.add(Menu.builder()
                     .restaurant("Ledarny")
@@ -62,7 +77,17 @@ public class AllRestaurantsService {
             return menus;
         } catch (Exception e) {
             System.out.println(e);
+            menus.add(fillError(restaurant));
         }
         return menus;
+    }
+
+    private Menu fillError(String restaurant) {
+        return Menu.builder()
+                .restaurant(restaurant)
+                .meals(Collections.singletonList(
+                        Meal.builder().name("Chyba načítání menu").build())
+                )
+                .build();
     }
 }
