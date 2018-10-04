@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,23 +29,40 @@ public class AllRestaurantsService {
     }
 
     public List<Menu> getMenus() {
-        List<Menu> menus = Arrays.asList(
-                Menu.builder()
-                        .restaurant("Mattes")
-                        .meals(mattesService.getMeals())
-                        .build(),
-                Menu.builder()
-                        .restaurant("Salanda")
-                        .meals(salandaService.getMeals())
-                        .build(),
-                Menu.builder()
-                        .restaurant("Rybarna")
-                        .meals(rybarnaService.getMeals())
-                        .build(),
-                Menu.builder()
-                        .restaurant("Ledarny")
-                        .meals(ledarnyService.getMeals())
-                        .build());
+        List<Menu> menus = new ArrayList<>();
+        try {
+            menus.add(Menu.builder()
+                    .restaurant("Mattes")
+                    .meals(mattesService.getMeals())
+                    .build());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            menus.add(Menu.builder()
+                    .restaurant("Salanda")
+                    .meals(salandaService.getMeals())
+                    .build());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            menus.add(Menu.builder()
+                    .restaurant("Rybarna")
+                    .meals(rybarnaService.getMeals())
+                    .build());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            menus.add(Menu.builder()
+                    .restaurant("Ledarny")
+                    .meals(ledarnyService.getMeals())
+                    .build());
+            return menus;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return menus;
     }
 }
