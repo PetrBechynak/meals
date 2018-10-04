@@ -33,21 +33,21 @@ public class LedarnyService implements RestaurantParser {
                 .filter(child -> !child.children().isEmpty())
                 .forEach(htmlMeal -> {
                     Meal.MealBuilder meal = Meal.builder();
-                    if (!htmlMeal.childNode(5).childNodes().isEmpty()
+                    if (htmlMeal.childNode(5).childNodes().size()>2
                             && !htmlMeal.childNode(5).childNodes().get(1).childNodes().isEmpty()) {
                         meal.price(htmlMeal.childNode(5).childNodes().get(1).childNodes().get(0).toString()
                                 .replace("<strong>", "")
                                 .replace("&nbsp;", "")
                                 .replace("</strong>", ""));
                     }
-                    if (!htmlMeal.childNode(3).childNodes().isEmpty()
+                    if (htmlMeal.childNode(5).childNodes().size()>2
                             && !htmlMeal.childNode(3).childNodes().get(1).childNodes().isEmpty()) {
                         meal.name(htmlMeal.childNode(3).childNodes().get(1).childNodes().get(0).toString()
                                 .replace("<strong>", "")
                                 .replace("&nbsp;", "")
                                 .replace("</strong>", ""));
                     }
-                    if (!htmlMeal.childNode(1).childNodes().isEmpty()
+                    if (htmlMeal.childNode(5).childNodes().size()>2
                             && !htmlMeal.childNode(1).childNodes().get(1).childNodes().isEmpty()) {
                         meal.weight(htmlMeal.childNode(1).childNodes().get(1).childNodes().get(0).toString()
                                 .replace("<strong>", "")
